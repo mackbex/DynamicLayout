@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.musinsa.shopping.domain.model.remote.HomeContents.HomeItem.ScrollContents.ScrollGoods" />
+            type="com.musinsa.shopping.domain.model.remote.Home.HomeContents.ScrollContents.ScrollGoods" />
 
         <variable
             name="clickListener"

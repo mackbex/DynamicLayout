@@ -3,7 +3,7 @@ package com.musinsa.shopping.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.musinsa.shopping.domain.Resource
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.domain.usecase.FetchHomeContentsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -16,8 +16,8 @@ class HomeViewModel @Inject constructor(
     private val fetchHomeContentsUseCase: FetchHomeContentsUseCase
 ) : ViewModel() {
 
-    private var _homeContentsState = MutableStateFlow<Resource<HomeContents>>(Resource.Loading)
-    val homeContentsState: StateFlow<Resource<HomeContents>> = _homeContentsState
+    private var _homeContentsState = MutableStateFlow<Resource<Home>>(Resource.Loading)
+    val homeContentsState: StateFlow<Resource<Home>> = _homeContentsState
 
     var gridGoodsIndex = 6
         private set

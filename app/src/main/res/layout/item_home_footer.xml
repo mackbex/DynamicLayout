@@ -11,7 +11,7 @@
 
         <variable
             name="model"
-            type="com.musinsa.shopping.domain.model.remote.HomeContents.Footer" />
+            type="com.musinsa.shopping.domain.model.remote.Home.HomeContents.Footer" />
 
         <variable
             name="clickListener"

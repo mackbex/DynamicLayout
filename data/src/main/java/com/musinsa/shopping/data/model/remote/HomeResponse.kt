@@ -7,12 +7,12 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 
 @Serializable
-data class HomeContentsResponse(
-    @SerialName("data") val data: List<HomeItemResponse>,
+data class HomeResponse(
+    @SerialName("data") val data: List<HomeContentsResponse>,
 ) {
 
     @Serializable
-    data class HomeItemResponse(
+    data class HomeContentsResponse(
 
         @SerialName("header")
         val header: HeaderResponse? = null,
@@ -131,23 +131,23 @@ data class HomeContentsResponse(
 
 
 object ProjectSerializer :
-    JsonContentPolymorphicSerializer<HomeContentsResponse.ContentsResponse>(HomeContentsResponse.ContentsResponse::class) {
+    JsonContentPolymorphicSerializer<HomeResponse.ContentsResponse>(HomeResponse.ContentsResponse::class) {
     override fun selectDeserializer(element: JsonElement) =
         when (element.jsonObject["type"]?.toString()) {
             "\"BANNER\"" -> {
-                HomeContentsResponse.ContentsResponse.BannerContentsResponse.serializer()
+                HomeResponse.ContentsResponse.BannerContentsResponse.serializer()
             }
             "\"GRID\"" -> {
-                HomeContentsResponse.ContentsResponse.GridContentsResponse.serializer()
+                HomeResponse.ContentsResponse.GridContentsResponse.serializer()
             }
             "\"SCROLL\"" -> {
-                HomeContentsResponse.ContentsResponse.ScrollContentsResponse.serializer()
+                HomeResponse.ContentsResponse.ScrollContentsResponse.serializer()
             }
             "\"STYLE\"" -> {
-                HomeContentsResponse.ContentsResponse.StyleContentsResponse.serializer()
+                HomeResponse.ContentsResponse.StyleContentsResponse.serializer()
             }
             else -> {
-                HomeContentsResponse.ContentsResponse.UnknownContentsResponse.serializer()
+                HomeResponse.ContentsResponse.UnknownContentsResponse.serializer()
             }
         }
 }

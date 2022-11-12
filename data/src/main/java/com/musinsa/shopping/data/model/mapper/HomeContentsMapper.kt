@@ -3,24 +3,24 @@ package com.musinsa.shopping.data.model.mapper
 import com.musinsa.shopping.data.model.remote.*
 import com.musinsa.shopping.domain.model.remote.*
 
-fun HomeContentsResponse.mapToDomain(): HomeContents {
-    return HomeContents(
+fun HomeResponse.mapToDomain(): Home {
+    return Home(
         data = this.data.map {
             it.mapToDomain()
         }
     )
 }
 
-fun HomeContentsResponse.HomeItemResponse.mapToDomain(): HomeContents.HomeItem {
+fun HomeResponse.HomeContentsResponse.mapToDomain(): Home.HomeContents {
     return when(this.contents) {
-        is HomeContentsResponse.ContentsResponse.UnknownContentsResponse -> {
-            HomeContents.HomeItem.UnknownContents
+        is HomeResponse.ContentsResponse.UnknownContentsResponse -> {
+            Home.HomeContents.UnknownContents
         }
-        is HomeContentsResponse.ContentsResponse.BannerContentsResponse -> {
-            HomeContents.HomeItem.BannersContents(
+        is HomeResponse.ContentsResponse.BannerContentsResponse -> {
+            Home.HomeContents.BannersContents(
                 header = this.header?.mapToDomain(),
                 banners = this.contents.banners.map {
-                    HomeContents.HomeItem.BannersContents.Banner(
+                    Home.HomeContents.BannersContents.Banner(
                         linkURL = it.linkURL,
                         thumbnailURL = it.thumbnailURL,
                         title = it.title,
@@ -31,11 +31,11 @@ fun HomeContentsResponse.HomeItemResponse.mapToDomain(): HomeContents.HomeItem {
                 footer = this.footer?.mapToDomain(),
             )
         }
-        is HomeContentsResponse.ContentsResponse.GridContentsResponse -> {
-            HomeContents.HomeItem.GridContents(
+        is HomeResponse.ContentsResponse.GridContentsResponse -> {
+            Home.HomeContents.GridContents(
                 header = this.header?.mapToDomain(),
                 goods = this.contents.goods.map {
-                    HomeContents.HomeItem.GridContents.GridGoods(
+                    Home.HomeContents.GridContents.GridGoods(
                         linkURL = it.linkURL,
                         thumbnailURL = it.thumbnailURL,
                         brandName = it.brandName,
@@ -47,11 +47,11 @@ fun HomeContentsResponse.HomeItemResponse.mapToDomain(): HomeContents.HomeItem {
                 footer = this.footer?.mapToDomain(),
             )
         }
-        is HomeContentsResponse.ContentsResponse.ScrollContentsResponse -> {
-            HomeContents.HomeItem.ScrollContents(
+        is HomeResponse.ContentsResponse.ScrollContentsResponse -> {
+            Home.HomeContents.ScrollContents(
                 header = this.header?.mapToDomain(),
                 goods = this.contents.goods.map {
-                    HomeContents.HomeItem.ScrollContents.ScrollGoods (
+                    Home.HomeContents.ScrollContents.ScrollGoods (
                         linkURL = it.linkURL,
                         thumbnailURL = it.thumbnailURL,
                         brandName = it.brandName,
@@ -63,11 +63,11 @@ fun HomeContentsResponse.HomeItemResponse.mapToDomain(): HomeContents.HomeItem {
                 footer = this.footer?.mapToDomain(),
             )
         }
-        is HomeContentsResponse.ContentsResponse.StyleContentsResponse -> {
-            HomeContents.HomeItem.StyleContents(
+        is HomeResponse.ContentsResponse.StyleContentsResponse -> {
+            Home.HomeContents.StyleContents(
                 header = this.header?.mapToDomain(),
                 styles = this.contents.styles.map {
-                    HomeContents.HomeItem.StyleContents.Styles(
+                    Home.HomeContents.StyleContents.Styles(
                         linkURL = it.linkURL,
                         thumbnailURL = it.thumbnailURL
                     )
@@ -78,18 +78,18 @@ fun HomeContentsResponse.HomeItemResponse.mapToDomain(): HomeContents.HomeItem {
     }
 }
 
-fun HomeContentsResponse.HomeItemResponse.HeaderResponse.mapToDomain(): HomeContents.Header {
-    return HomeContents.Header(
+fun HomeResponse.HomeContentsResponse.HeaderResponse.mapToDomain(): Home.HomeContents.Header {
+    return Home.HomeContents.Header(
         title = this.title,
         linkURL = this.linkURL,
         iconURL = this.iconURL
     )
 }
 
-fun HomeContentsResponse.HomeItemResponse.FooterResponse.mapToDomain(): HomeContents.Footer {
-    return HomeContents.Footer(
+fun HomeResponse.HomeContentsResponse.FooterResponse.mapToDomain(): Home.HomeContents.Footer {
+    return Home.HomeContents.Footer(
         title = this.title,
-        type = HomeContents.Footer.FooterType.from(this.type),
+        type = Home.HomeContents.Footer.FooterType.from(this.type),
         iconURL = this.iconURL
     )
 }

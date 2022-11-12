@@ -1,17 +1,14 @@
 package com.musinsa.shopping.ui.home.adapter
 
-import android.content.Context
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeScrollWrapperBinding
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.util.getDataBinding
 
 class ScrollWrapperAdapter(
-    private val data: List<HomeContents.HomeItem.ScrollContents.ScrollGoods>,
+    private val data: List<Home.HomeContents.ScrollContents.ScrollGoods>,
     private val adapter: ScrollAdapter
 ) : RecyclerView.Adapter<ScrollWrapperAdapter.ViewHolder>() {
 
@@ -65,7 +62,7 @@ class ScrollWrapperAdapter(
         super.onViewRecycled(holder)
     }
 
-    fun updateData(data: List<HomeContents.HomeItem.ScrollContents.ScrollGoods>) {
+    fun updateData(data: List<Home.HomeContents.ScrollContents.ScrollGoods>) {
         binding?.rcScrollWrapper?.run {
             stopScroll()
             scrollToPosition(0)

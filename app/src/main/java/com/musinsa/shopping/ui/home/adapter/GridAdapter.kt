@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeGridBinding
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.util.getDataBinding
 
 
 class GridAdapter :
-    ListAdapter<HomeContents.HomeItem.GridContents.GridGoods, GridAdapter.ViewHolder>(
+    ListAdapter<Home.HomeContents.GridContents.GridGoods, GridAdapter.ViewHolder>(
         ItemDiffCallback()
     ) {
 
@@ -28,7 +28,7 @@ class GridAdapter :
     inner class ViewHolder(private val binding: ItemHomeGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(model: HomeContents.HomeItem.GridContents.GridGoods) {
+        fun bind(model: Home.HomeContents.GridContents.GridGoods) {
             binding.model = model
             binding.clickListener = clickListener
         }
@@ -42,10 +42,10 @@ class GridAdapter :
         holder.bind(getItem(position))
     }
 
-    private class ItemDiffCallback : DiffUtil.ItemCallback<HomeContents.HomeItem.GridContents.GridGoods>() {
+    private class ItemDiffCallback : DiffUtil.ItemCallback<Home.HomeContents.GridContents.GridGoods>() {
         override fun areItemsTheSame(
-            oldItem: HomeContents.HomeItem.GridContents.GridGoods,
-            newItem: HomeContents.HomeItem.GridContents.GridGoods
+            oldItem: Home.HomeContents.GridContents.GridGoods,
+            newItem: Home.HomeContents.GridContents.GridGoods
         ): Boolean {
             return oldItem.linkURL == newItem.linkURL
                     && oldItem.thumbnailURL == newItem.thumbnailURL
@@ -53,8 +53,8 @@ class GridAdapter :
         }
 
         override fun areContentsTheSame(
-            oldItem: HomeContents.HomeItem.GridContents.GridGoods,
-            newItem: HomeContents.HomeItem.GridContents.GridGoods
+            oldItem: Home.HomeContents.GridContents.GridGoods,
+            newItem: Home.HomeContents.GridContents.GridGoods
         ): Boolean {
             return oldItem == newItem
         }

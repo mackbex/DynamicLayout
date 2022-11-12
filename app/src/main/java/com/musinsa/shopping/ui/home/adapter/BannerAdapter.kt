@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeBannerBinding
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.util.getDataBinding
 
 
 class BannerAdapter :
-    ListAdapter<HomeContents.HomeItem.BannersContents.Banner, BannerAdapter.ViewHolder>(
+    ListAdapter<Home.HomeContents.BannersContents.Banner, BannerAdapter.ViewHolder>(
         ItemDiffCallback()
     ) {
 
@@ -28,7 +28,7 @@ class BannerAdapter :
     inner class ViewHolder(private val binding: ItemHomeBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(model: HomeContents.HomeItem.BannersContents.Banner) {
+        fun bind(model: Home.HomeContents.BannersContents.Banner) {
             binding.model = model
             binding.clickListener = clickListener
         }
@@ -46,10 +46,10 @@ class BannerAdapter :
         return getItem(position).hashCode().toLong()
     }
 
-    private class ItemDiffCallback : DiffUtil.ItemCallback<HomeContents.HomeItem.BannersContents.Banner>() {
+    private class ItemDiffCallback : DiffUtil.ItemCallback<Home.HomeContents.BannersContents.Banner>() {
         override fun areItemsTheSame(
-            oldItem: HomeContents.HomeItem.BannersContents.Banner,
-            newItem: HomeContents.HomeItem.BannersContents.Banner
+            oldItem: Home.HomeContents.BannersContents.Banner,
+            newItem: Home.HomeContents.BannersContents.Banner
         ): Boolean {
             return oldItem.linkURL == newItem.linkURL
                     && oldItem.thumbnailURL == newItem.thumbnailURL
@@ -59,8 +59,8 @@ class BannerAdapter :
         }
 
         override fun areContentsTheSame(
-            oldItem: HomeContents.HomeItem.BannersContents.Banner,
-            newItem: HomeContents.HomeItem.BannersContents.Banner
+            oldItem: Home.HomeContents.BannersContents.Banner,
+            newItem: Home.HomeContents.BannersContents.Banner
         ): Boolean {
             return oldItem == newItem
         }

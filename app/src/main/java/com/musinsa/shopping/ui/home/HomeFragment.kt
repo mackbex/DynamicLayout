@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.musinsa.shopping.databinding.FragmentHomeBinding
 import com.musinsa.shopping.domain.Resource
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.ui.home.adapter.*
 import com.musinsa.shopping.util.autoCleared
 import com.musinsa.shopping.util.setScrollSensitivity
@@ -95,11 +95,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initAdapter(homeContents: HomeContents) {
+    private fun initAdapter(homeContents: Home) {
         homeContents.data.forEach { homeItem ->
 
             when (homeItem) {
-                is HomeContents.HomeItem.BannersContents -> {
+                is Home.HomeContents.BannersContents -> {
 
                     concatAdapter.addFormAdapter(
                         header = setHeaderAdapter(homeItem.header),
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
                         footer = null
                     )
                 }
-                is HomeContents.HomeItem.GridContents -> {
+                is Home.HomeContents.GridContents -> {
 
                     val goodsAdapter = GridAdapter().apply {
                         setGridClickListener(object : GridAdapter.GridGoodsListener {
@@ -143,7 +143,7 @@ class HomeFragment : Fragment() {
                         }
                     )
                 }
-                is HomeContents.HomeItem.ScrollContents -> {
+                is Home.HomeContents.ScrollContents -> {
 
                     val scrollWrapperAdapter = ScrollWrapperAdapter(homeItem.goods, ScrollAdapter().apply {
                         setScrollClickListener(object : ScrollAdapter.ScrollGoodsListener {
@@ -163,7 +163,7 @@ class HomeFragment : Fragment() {
                     )
                 }
 
-                is HomeContents.HomeItem.StyleContents -> {
+                is Home.HomeContents.StyleContents -> {
 
                     val styleAdapter = StyleAdapter().apply {
                         setStyleClickListener(object : StyleAdapter.StyleListener {
@@ -191,12 +191,12 @@ class HomeFragment : Fragment() {
                         }
                     )
                 }
-                HomeContents.HomeItem.UnknownContents -> {}
+                Home.HomeContents.UnknownContents -> {}
             }
         }
     }
 
-    private fun setHeaderAdapter(header: HomeContents.Header?): HeaderAdapter? {
+    private fun setHeaderAdapter(header: Home.HomeContents.Header?): HeaderAdapter? {
         return header?.let {
                 HeaderAdapter(header).apply {
                     setHeaderClickListener(object : HeaderAdapter.HeaderListener {
@@ -213,11 +213,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setFooterAdapter(footer: HomeContents.Footer?, callback:((type: HomeContents.Footer.FooterType, adapter: FooterAdapter) -> Unit)? = null): FooterAdapter? {
+    private fun setFooterAdapter(footer: Home.HomeContents.Footer?, callback:((type: Home.HomeContents.Footer.FooterType, adapter: FooterAdapter) -> Unit)? = null): FooterAdapter? {
         return footer?.let {
             FooterAdapter(footer).apply {
                 setFooterClickListener(object : FooterAdapter.FooterListener {
-                    override fun onClick(type: HomeContents.Footer.FooterType) {
+                    override fun onClick(type: Home.HomeContents.Footer.FooterType) {
                         callback?.invoke(type, this@apply)
                     }
                 })

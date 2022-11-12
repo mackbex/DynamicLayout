@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.musinsa.shopping.domain.model.remote.HomeContents.HomeItem.GridContents.GridGoods" />
+            type="com.musinsa.shopping.domain.model.remote.Home.HomeContents.GridContents.GridGoods" />
 
         <variable
             name="clickListener"

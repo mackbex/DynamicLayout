@@ -4,13 +4,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeScrollBinding
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.util.getDataBinding
 
 
 class ScrollAdapter : RecyclerView.Adapter<ScrollAdapter.ViewHolder>() {
 
-    private val list = mutableListOf<HomeContents.HomeItem.ScrollContents.ScrollGoods>()
+    private val list = mutableListOf<Home.HomeContents.ScrollContents.ScrollGoods>()
     private var clickListener: ScrollGoodsListener? = null
 
     interface ScrollGoodsListener {
@@ -35,7 +35,7 @@ class ScrollAdapter : RecyclerView.Adapter<ScrollAdapter.ViewHolder>() {
         }
     }
 
-    fun setData(newList: List<HomeContents.HomeItem.ScrollContents.ScrollGoods>) {
+    fun setData(newList: List<Home.HomeContents.ScrollContents.ScrollGoods>) {
         this.list.apply {
             clear()
             addAll(newList)
@@ -46,7 +46,7 @@ class ScrollAdapter : RecyclerView.Adapter<ScrollAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemHomeScrollBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(model: HomeContents.HomeItem.ScrollContents.ScrollGoods) {
+        fun bind(model: Home.HomeContents.ScrollContents.ScrollGoods) {
             binding.model = model
             binding.clickListener = clickListener
         }

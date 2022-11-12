@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.musinsa.shopping.domain.model.remote.HomeContents.HomeItem.BannersContents.Banner" />
+            type="com.musinsa.shopping.domain.model.remote.Home.HomeContents.BannersContents.Banner" />
 
 
         <variable

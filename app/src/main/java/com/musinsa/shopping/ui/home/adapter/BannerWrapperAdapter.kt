@@ -5,12 +5,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeBannerViewpagerBinding
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.util.getDataBinding
 
 
 class BannerWrapperAdapter(
-    private val data: List<HomeContents.HomeItem.BannersContents.Banner>,
+    private val data: List<Home.HomeContents.BannersContents.Banner>,
     private val adapter: BannerAdapter
 ) : RecyclerView.Adapter<BannerWrapperAdapter.ViewHolder>() {
 
@@ -29,7 +29,7 @@ class BannerWrapperAdapter(
     inner class ViewHolder(val binding: ItemHomeBannerViewpagerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(adapter: BannerAdapter, data: List<HomeContents.HomeItem.BannersContents.Banner>) {
+        fun bind(adapter: BannerAdapter, data: List<Home.HomeContents.BannersContents.Banner>) {
             binding.vpBanner.apply {
                 offscreenPageLimit = 3
 

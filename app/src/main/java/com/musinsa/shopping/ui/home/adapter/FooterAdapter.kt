@@ -4,17 +4,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeFooterBinding
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.util.getDataBinding
 
 
 class FooterAdapter(
-    private val data: HomeContents.Footer
+    private val data: Home.HomeContents.Footer
     ) : RecyclerView.Adapter<FooterAdapter.ViewHolder>() {
     private var clickListener: FooterListener? = null
 
     interface FooterListener {
-        fun onClick(type: HomeContents.Footer.FooterType)
+        fun onClick(type: Home.HomeContents.Footer.FooterType)
     }
 
     fun setFooterClickListener(listener: FooterListener) {
@@ -24,7 +24,7 @@ class FooterAdapter(
     inner class ViewHolder(private val binding: ItemHomeFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(model: HomeContents.Footer) {
+        fun bind(model: Home.HomeContents.Footer) {
             binding.model = model
             binding.clickListener = clickListener
         }

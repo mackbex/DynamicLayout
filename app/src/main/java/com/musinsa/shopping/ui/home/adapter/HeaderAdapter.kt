@@ -4,12 +4,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeHeaderBinding
-import com.musinsa.shopping.domain.model.remote.HomeContents
+import com.musinsa.shopping.domain.model.remote.Home
 import com.musinsa.shopping.util.getDataBinding
 
 
 class HeaderAdapter(
-    private val data: HomeContents.Header
+    private val data: Home.HomeContents.Header
 ) : RecyclerView.Adapter<HeaderAdapter.ViewHolder>() {
 
     private var clickListener: HeaderListener? = null
@@ -25,7 +25,7 @@ class HeaderAdapter(
     inner class ViewHolder(private val binding: ItemHomeHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(model: HomeContents.Header) {
+        fun bind(model: Home.HomeContents.Header) {
             binding.model = model
             binding.clickListener = clickListener
         }
