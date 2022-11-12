@@ -31,7 +31,7 @@ class BannerWrapperAdapter(
 
         fun bind(adapter: BannerAdapter, data: List<Home.HomeContents.BannersContents.Banner>) {
             binding.vpBanner.apply {
-                offscreenPageLimit = 3
+                offscreenPageLimit = 2
 
                 this.adapter = adapter.apply {
                     submitList(data)
