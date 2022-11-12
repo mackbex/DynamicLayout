@@ -16,15 +16,28 @@ class HomeViewModel @Inject constructor(
     private val fetchHomeContentsUseCase: FetchHomeContentsUseCase
 ) : ViewModel() {
 
-    private val _homeContentsState = MutableStateFlow<Resource<HomeContents>>(Resource.Loading)
+    private var _homeContentsState = MutableStateFlow<Resource<HomeContents>>(Resource.Loading)
     val homeContentsState: StateFlow<Resource<HomeContents>> = _homeContentsState
 
     var gridGoodsIndex = 6
+        private set
+//    val gridGoodsIndex = gridGoodsIndex
+
     var gridStyleIndex = 4
+        private set
+//    val gridStyleIndex = _gridStyleIndex
 
     fun fetchHomeContents() {
         viewModelScope.launch {
             _homeContentsState.value = fetchHomeContentsUseCase.invoke()
         }
+    }
+
+    fun increaseGoodsIndex(index: Int) {
+        gridGoodsIndex += index
+    }
+
+    fun increaseStyleIndex(index: Int) {
+        gridStyleIndex += index
     }
 }

@@ -133,7 +133,7 @@ class HomeFragment : Fragment() {
                         header = setHeaderAdapter(homeItem.header),
                         contents = goodsAdapter,
                         footer = setFooterAdapter(homeItem.footer) { _, adapter ->
-                            viewModel.gridGoodsIndex += 3
+                            viewModel.increaseGoodsIndex(3)
                             goodsAdapter.submitList(homeItem.goods.take(viewModel.gridGoodsIndex))
                             if (homeItem.goods.size <= viewModel.gridGoodsIndex) {
                                 binding.rcHome.post {
@@ -179,7 +179,7 @@ class HomeFragment : Fragment() {
                         header = setHeaderAdapter(homeItem.header),
                         contents = styleAdapter,
                         footer = setFooterAdapter(homeItem.footer) { _, adapter ->
-                            viewModel.gridStyleIndex += 2
+                            viewModel.increaseStyleIndex(2)
 
                             styleAdapter.submitList(homeItem.styles.take(viewModel.gridStyleIndex))
 
