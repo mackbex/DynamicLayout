@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MusinsaShopping</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="label_all">전체</string>
+    <string name="label_coupon">쿠폰</string>
+    <string name="price_format">%,2d원</string>
+    <string name="sale_rate_format">%d%%</string>
+    <string name="label_banner_index">%d / %d</string>
+</resources>

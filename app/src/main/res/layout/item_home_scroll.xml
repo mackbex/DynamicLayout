@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.musinsa.shopping.domain.model.remote.HomeContents.HomeItem.ScrollContents.ScrollGoods" />
+
+        <variable
+            name="clickListener"
+            type="com.musinsa.shopping.ui.home.adapter.ScrollAdapter.ScrollGoodsListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(model.linkURL)}"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="@dimen/radius_4"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/grey_02"
+            android:layout_margin="@dimen/margin_4"
+            app:strokeWidth="@dimen/stroke_0_dot_5">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_img"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/layout_desciption"
+                    >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:src="@{model.thumbnailURL}"
+                        tools:src="@drawable/ic_baseline_search_24" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_desciption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/padding_10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_brand_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{model.brandName}"
+                        app:layout_constraintBottom_toTopOf="@id/tv_price"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="캐치볼" />
+
+                    <TextView
+                        android:id="@+id/tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_4"
+                        android:text="@{@string/price_format(model.price)}"
+                        android:textColor="@color/black"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintEnd_toStartOf="@id/tv_sale_rate"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_brand_name"
+                        tools:text="395,8원" />
+
+                    <TextView
+                        android:id="@+id/tv_sale_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_4"
+                        android:text="@{@string/sale_rate_format(model.saleRate)}"
+                        android:textColor="@android:color/holo_red_light"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_price"
+                        app:layout_constraintEnd_toStartOf="@id/card_has_coupon"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@id/tv_price"
+                        app:layout_constraintTop_toTopOf="@id/tv_price"
+                        tools:text="20%" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_has_coupon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_4"
+                        android:backgroundTint="@android:color/holo_blue_light"
+                        android:visibility="@{model.hasCoupon ? View.VISIBLE : View.GONE}"
+                        app:cardCornerRadius="@dimen/radius_2"
+                        app:cardElevation="0dp"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_price"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@id/tv_sale_rate"
+                        app:layout_constraintTop_toTopOf="@id/tv_price"
+                        tools:text="쿠폰">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="@dimen/padding_2"
+                            android:text="@string/label_coupon"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_8sp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
