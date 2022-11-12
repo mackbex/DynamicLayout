@@ -19,7 +19,6 @@ class HomeViewModel @Inject constructor(
     private val _homeContentsState = MutableStateFlow<Resource<HomeContents>>(Resource.Loading)
     val homeContentsState: StateFlow<Resource<HomeContents>> = _homeContentsState
 
-
     var gridGoodsIndex = 6
     var gridStyleIndex = 4
 
@@ -28,5 +27,4 @@ class HomeViewModel @Inject constructor(
             _homeContentsState.value = fetchHomeContentsUseCase.invoke()
         }
     }
-
 }

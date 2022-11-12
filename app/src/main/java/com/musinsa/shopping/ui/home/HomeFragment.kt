@@ -11,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.musinsa.shopping.databinding.FragmentHomeBinding
 import com.musinsa.shopping.domain.Resource
 import com.musinsa.shopping.domain.model.remote.HomeContents
@@ -95,13 +97,13 @@ class HomeFragment : Fragment() {
 
     private fun initAdapter(homeContents: HomeContents) {
         homeContents.data.forEach { homeItem ->
+
             when (homeItem) {
                 is HomeContents.HomeItem.BannersContents -> {
 
-                    addHeaderAdapter(homeItem.header)
-
-                    concatAdapter.addAdapter(
-                        BannerWrapperAdapter(homeItem.banners,
+                    concatAdapter.addFormAdapter(
+                        header = setHeaderAdapter(homeItem.header),
+                        contents = BannerWrapperAdapter(homeItem.banners,
                             BannerAdapter().apply {
                                 setBannerListener(object : BannerAdapter.BannerListener {
                                     override fun onClick(link: String) {
@@ -111,12 +113,11 @@ class HomeFragment : Fragment() {
                                     }
                                 })
                             }
-                        )
+                        ),
+                        footer = null
                     )
                 }
                 is HomeContents.HomeItem.GridContents -> {
-
-                    addHeaderAdapter(homeItem.header)
 
                     val goodsAdapter = GridAdapter().apply {
                         setGridClickListener(object : GridAdapter.GridGoodsListener {
@@ -126,22 +127,23 @@ class HomeFragment : Fragment() {
                             }
                         })
                         submitList(homeItem.goods.take(viewModel.gridGoodsIndex))
-                        concatAdapter.addAdapter(this)
                     }
 
-                    addFooterAdapter(homeItem.footer) { _, adapter ->
-                        viewModel.gridGoodsIndex += 3
-
-                        goodsAdapter.submitList(homeItem.goods.take(viewModel.gridGoodsIndex))
-                        if (homeItem.goods.size <= viewModel.gridGoodsIndex) {
-                            binding.rcHome.post {
-                                concatAdapter.removeAdapter(adapter)
+                    concatAdapter.addFormAdapter(
+                        header = setHeaderAdapter(homeItem.header),
+                        contents = goodsAdapter,
+                        footer = setFooterAdapter(homeItem.footer) { _, adapter ->
+                            viewModel.gridGoodsIndex += 3
+                            goodsAdapter.submitList(homeItem.goods.take(viewModel.gridGoodsIndex))
+                            if (homeItem.goods.size <= viewModel.gridGoodsIndex) {
+                                binding.rcHome.post {
+                                    concatAdapter.removeAdapter(adapter)
+                                }
                             }
                         }
-                    }
+                    )
                 }
                 is HomeContents.HomeItem.ScrollContents -> {
-                    addHeaderAdapter(homeItem.header)
 
                     val scrollWrapperAdapter = ScrollWrapperAdapter(homeItem.goods, ScrollAdapter().apply {
                         setScrollClickListener(object : ScrollAdapter.ScrollGoodsListener {
@@ -152,15 +154,16 @@ class HomeFragment : Fragment() {
                         })
                     })
 
-                    concatAdapter.addAdapter(scrollWrapperAdapter)
-
-                    addFooterAdapter(homeItem.footer) { _, _ ->
-                        scrollWrapperAdapter.updateData(homeItem.goods.shuffled())
-                    }
+                    concatAdapter.addFormAdapter(
+                        header = setHeaderAdapter(homeItem.header),
+                        contents = scrollWrapperAdapter,
+                        footer = setFooterAdapter(homeItem.footer) { _, _ ->
+                            scrollWrapperAdapter.updateData(homeItem.goods.shuffled())
+                        }
+                    )
                 }
 
                 is HomeContents.HomeItem.StyleContents -> {
-                    addHeaderAdapter(homeItem.header)
 
                     val styleAdapter = StyleAdapter().apply {
                         setStyleClickListener(object : StyleAdapter.StyleListener {
@@ -170,29 +173,31 @@ class HomeFragment : Fragment() {
                             }
                         })
                         submitList(homeItem.styles.take(viewModel.gridStyleIndex))
-                        concatAdapter.addAdapter(this)
                     }
 
-                    addFooterAdapter(homeItem.footer) { _, adapter ->
-                        viewModel.gridStyleIndex += 2
+                    concatAdapter.addFormAdapter(
+                        header = setHeaderAdapter(homeItem.header),
+                        contents = styleAdapter,
+                        footer = setFooterAdapter(homeItem.footer) { _, adapter ->
+                            viewModel.gridStyleIndex += 2
 
-                        styleAdapter.submitList(homeItem.styles.take(viewModel.gridStyleIndex))
+                            styleAdapter.submitList(homeItem.styles.take(viewModel.gridStyleIndex))
 
-                        if (homeItem.styles.size <= viewModel.gridStyleIndex) {
-                            binding.rcHome.post {
-                                concatAdapter.removeAdapter(adapter)
+                            if (homeItem.styles.size <= viewModel.gridStyleIndex) {
+                                binding.rcHome.post {
+                                    concatAdapter.removeAdapter(adapter)
+                                }
                             }
                         }
-                    }
+                    )
                 }
                 HomeContents.HomeItem.UnknownContents -> {}
             }
         }
     }
 
-    private fun addHeaderAdapter(header: HomeContents.Header?) {
-        header?.let {
-            concatAdapter.addAdapter(
+    private fun setHeaderAdapter(header: HomeContents.Header?): HeaderAdapter? {
+        return header?.let {
                 HeaderAdapter(header).apply {
                     setHeaderClickListener(object : HeaderAdapter.HeaderListener {
                         override fun onClick(link: String?) {
@@ -203,19 +208,28 @@ class HomeFragment : Fragment() {
                         }
                     })
                 }
-            )
+        } ?: run {
+            null
         }
     }
 
-    private fun addFooterAdapter(footer: HomeContents.Footer?, callback:((type: HomeContents.Footer.FooterType, adapter: FooterAdapter) -> Unit)? = null) {
-        footer?.let {
-            concatAdapter.addAdapter(FooterAdapter(footer).apply {
+    private fun setFooterAdapter(footer: HomeContents.Footer?, callback:((type: HomeContents.Footer.FooterType, adapter: FooterAdapter) -> Unit)? = null): FooterAdapter? {
+        return footer?.let {
+            FooterAdapter(footer).apply {
                 setFooterClickListener(object : FooterAdapter.FooterListener {
                     override fun onClick(type: HomeContents.Footer.FooterType) {
                         callback?.invoke(type, this@apply)
                     }
                 })
-            })
+            }
+        } ?: run {
+            null
         }
+    }
+
+    private fun <T: ViewHolder> ConcatAdapter.addFormAdapter(header: HeaderAdapter?, contents: Adapter<T>, footer: FooterAdapter?) {
+        header?.let { this.addAdapter(it) }
+        this.addAdapter(contents)
+        footer?.let { this.addAdapter(it) }
     }
 }
