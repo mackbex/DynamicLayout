@@ -1,8 +1,6 @@
 package com.musinsa.shopping.ui.home.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeScrollBinding
@@ -10,11 +8,9 @@ import com.musinsa.shopping.domain.model.remote.HomeContents
 import com.musinsa.shopping.util.getDataBinding
 
 
-class ScrollAdapter :
-    ListAdapter<HomeContents.HomeItem.ScrollContents.ScrollGoods, ScrollAdapter.ViewHolder>(
-        ItemDiffCallback()
-) {
+class ScrollAdapter : RecyclerView.Adapter<ScrollAdapter.ViewHolder>() {
 
+    private val list = mutableListOf<HomeContents.HomeItem.ScrollContents.ScrollGoods>()
     private var clickListener: ScrollGoodsListener? = null
 
     interface ScrollGoodsListener {
@@ -29,8 +25,22 @@ class ScrollAdapter :
         return ViewHolder(getDataBinding(parent, R.layout.item_home_scroll))
     }
 
+    override fun getItemId(position: Int): Long {
+        return list[position].hashCode().toLong()
+    }
+
     override fun onBindViewHolder(holder: ScrollAdapter.ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        list.getOrNull(position)?.let {
+            holder.bind(it)
+        }
+    }
+
+    fun setData(newList: List<HomeContents.HomeItem.ScrollContents.ScrollGoods>) {
+        this.list.apply {
+            clear()
+            addAll(newList)
+            notifyItemRangeChanged(0, size)
+        }
     }
 
     inner class ViewHolder(private val binding: ItemHomeScrollBinding) :
@@ -42,22 +52,5 @@ class ScrollAdapter :
         }
     }
 
-    private class ItemDiffCallback : DiffUtil.ItemCallback<HomeContents.HomeItem.ScrollContents.ScrollGoods>() {
-        override fun areItemsTheSame(
-            oldItem: HomeContents.HomeItem.ScrollContents.ScrollGoods,
-            newItem: HomeContents.HomeItem.ScrollContents.ScrollGoods
-        ): Boolean {
-            return oldItem.linkURL == newItem.linkURL
-                    && oldItem.thumbnailURL == newItem.thumbnailURL
-                    && oldItem.brandName == newItem.brandName
-        }
-
-        override fun areContentsTheSame(
-            oldItem: HomeContents.HomeItem.ScrollContents.ScrollGoods,
-            newItem: HomeContents.HomeItem.ScrollContents.ScrollGoods
-        ): Boolean {
-            return oldItem == newItem
-        }
-
-    }
+    override fun getItemCount() = list.size
 }

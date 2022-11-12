@@ -42,6 +42,10 @@ class BannerAdapter :
         holder.bind(getItem(position))
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position).hashCode().toLong()
+    }
+
     private class ItemDiffCallback : DiffUtil.ItemCallback<HomeContents.HomeItem.BannersContents.Banner>() {
         override fun areItemsTheSame(
             oldItem: HomeContents.HomeItem.BannersContents.Banner,

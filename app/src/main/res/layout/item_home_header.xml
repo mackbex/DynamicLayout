@@ -22,25 +22,29 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_max="@dimen/width_300">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/img_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/margin_4"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
                 android:src="@{model.iconURL}"
                 android:visibility="@{TextUtils.isEmpty(model.iconURL) ? View.GONE : View.VISIBLE}"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_title"
                 tools:src="@drawable/ic_baseline_search_24" />
 
             <TextView
@@ -50,8 +54,15 @@
                 android:text="@{model.title}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/img_icon"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="타이틀" />
-        </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <com.google.android.material.button.MaterialButton

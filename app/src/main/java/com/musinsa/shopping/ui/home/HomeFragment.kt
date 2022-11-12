@@ -143,21 +143,19 @@ class HomeFragment : Fragment() {
                 is HomeContents.HomeItem.ScrollContents -> {
                     addHeaderAdapter(homeItem.header)
 
-                    val scrollAdapter = ScrollAdapter().apply {
+                    val scrollWrapperAdapter = ScrollWrapperAdapter(homeItem.goods, ScrollAdapter().apply {
                         setScrollClickListener(object : ScrollAdapter.ScrollGoodsListener {
                             override fun onClick(link: String) {
                                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
                                 startActivity(browserIntent)
                             }
                         })
-                        submitList(homeItem.goods)
-                    }.apply {
+                    })
 
-                        concatAdapter.addAdapter(ScrollWrapperAdapter(this))
-                    }
+                    concatAdapter.addAdapter(scrollWrapperAdapter)
 
                     addFooterAdapter(homeItem.footer) { _, _ ->
-                        scrollAdapter.submitList(homeItem.goods.shuffled())
+                        scrollWrapperAdapter.updateData(homeItem.goods.shuffled())
                     }
                 }
 

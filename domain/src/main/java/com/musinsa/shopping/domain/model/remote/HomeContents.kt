@@ -49,6 +49,7 @@ data class HomeContents(
                 val saleRate: Int,
                 val hasCoupon: Boolean,
             )
+
         }
 
         data class StyleContents(

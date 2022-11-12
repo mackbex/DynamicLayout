@@ -31,12 +31,14 @@ class BannerWrapperAdapter(
 
         fun bind(adapter: BannerAdapter, data: List<HomeContents.HomeItem.BannersContents.Banner>) {
             binding.vpBanner.apply {
-
                 offscreenPageLimit = 3
+
                 this.adapter = adapter.apply {
                     submitList(data)
+                    if(!hasObservers()) {
+                        setHasStableIds(true)
+                    }
                 }
-
 
                 registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
@@ -45,10 +47,10 @@ class BannerWrapperAdapter(
                 })
 
                 setCurrentItem(lastPage, false)
-
             }
 
             binding.total = data.size
+
         }
     }
 
@@ -56,6 +58,4 @@ class BannerWrapperAdapter(
         lastPage = holder.binding.vpBanner.currentItem
         super.onViewRecycled(holder)
     }
-
-
 }

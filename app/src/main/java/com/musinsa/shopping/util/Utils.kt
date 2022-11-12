@@ -1,5 +1,6 @@
 package com.musinsa.shopping.util
 
+import android.content.res.Resources
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -30,3 +31,7 @@ fun RecyclerView.setScrollSensitivity(yBuffer:Int = 10) {
         }
     )
 }
+
+val Int.toPx get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+val Int.toDp get() = (this / Resources.getSystem().displayMetrics.density).toInt()

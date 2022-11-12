@@ -1,26 +1,39 @@
 package com.musinsa.shopping.ui.home.adapter
 
+import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.musinsa.shopping.R
 import com.musinsa.shopping.databinding.ItemHomeScrollWrapperBinding
+import com.musinsa.shopping.domain.model.remote.HomeContents
 import com.musinsa.shopping.util.getDataBinding
 
 class ScrollWrapperAdapter(
+    private val data: List<HomeContents.HomeItem.ScrollContents.ScrollGoods>,
     private val adapter: ScrollAdapter
 ) : RecyclerView.Adapter<ScrollWrapperAdapter.ViewHolder>() {
+
     private var lastScrollX = 0
+    private var binding: ItemHomeScrollWrapperBinding? = null
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ScrollWrapperAdapter.ViewHolder {
-        return ViewHolder(getDataBinding(parent, R.layout.item_home_scroll_wrapper))
+        return ViewHolder(
+            getDataBinding<ItemHomeScrollWrapperBinding>(
+                parent,
+                R.layout.item_home_scroll_wrapper
+            ).apply {
+                binding = this
+            })
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(adapter, lastScrollX)
+        holder.bind(adapter)
     }
 
     override fun getItemCount(): Int = 1
@@ -28,23 +41,21 @@ class ScrollWrapperAdapter(
     inner class ViewHolder(
         val binding: ItemHomeScrollWrapperBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(adapter: ScrollAdapter, lastScrollX: Int) {
+        fun bind(adapter: ScrollAdapter) {
 
-            binding.rcScrollWrapper.itemAnimator = null
-            binding.rcScrollWrapper.adapter = adapter
-            binding.rcScrollWrapper.layoutManager =
-                object : LinearLayoutManager(binding.root.context, HORIZONTAL, false) {
-                    override fun checkLayoutParams(lp: RecyclerView.LayoutParams?): Boolean {
-                        return lp?.let {
-                            lp.width = width / 3
-                            true
-                        } ?: run {
-                            super.checkLayoutParams(lp)
-                        }
+            binding.rcScrollWrapper.apply {
+                itemAnimator = null
+                this.adapter = adapter.apply {
+                    setData(data)
+                    if(!hasObservers()) {
+                        setHasStableIds(true)
                     }
                 }
+            }
 
-            binding.rcScrollWrapper.scrollBy(lastScrollX, 0)
+            binding.rcScrollWrapper.post {
+                binding.rcScrollWrapper.scrollTo(lastScrollX, 0)
+            }
         }
     }
 
@@ -52,5 +63,15 @@ class ScrollWrapperAdapter(
         lastScrollX = holder.binding.rcScrollWrapper.computeHorizontalScrollOffset()
 
         super.onViewRecycled(holder)
+    }
+
+    fun updateData(data: List<HomeContents.HomeItem.ScrollContents.ScrollGoods>) {
+        binding?.rcScrollWrapper?.run {
+            stopScroll()
+            scrollToPosition(0)
+            this@ScrollWrapperAdapter.adapter.apply {
+                setData(data)
+            }
+        }
     }
 }
