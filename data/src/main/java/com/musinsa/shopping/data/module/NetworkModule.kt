@@ -3,6 +3,7 @@ package com.musinsa.shopping.data.module
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.musinsa.shopping.data.BuildConfig
 import com.musinsa.shopping.data.api.remote.*
+import com.musinsa.shopping.data.ignoreAllSSLErrors
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,6 +34,7 @@ object NetworkModule {
             val logging = HttpLoggingInterceptor()
             logging.setLevel(Level.BODY)
             client.addInterceptor(logging)
+            client.ignoreAllSSLErrors()
         }
 
         return client.build()
